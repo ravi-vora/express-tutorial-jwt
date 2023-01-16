@@ -15,9 +15,8 @@
 
 # endpoints
 - /user GET 
-    * headers
-    - Authorization - <Bearer token>
+    - headers -> Authorization - <Bearer token>
 
 - /user POST
     * body
-    - { firstName, lastName, email, phone, password, confirmPassword }
+    -- { firstName, lastName, email, phone, password, confirmPassword }
