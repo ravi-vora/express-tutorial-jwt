@@ -23,6 +23,7 @@ export const registerUser = (request, response) => {
         const jwt = issueJWT(result.id);
         response.cookie("token", jwt.token);
         response.cookie("expires", jwt.expires);
+        response.header('authorization', jwt.token);
         response.status(201).json({
             success: true,
             data: {
@@ -62,6 +63,25 @@ export const registerUser = (request, response) => {
     });
 };
 export const sendAuthUser = (request, response) => {
-    response.status(200).json(request.user);
+    const user = request.user;
+    if (user) {
+        response.status(200).json({
+            success: true,
+            data: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phone: user.phone
+            }
+        });
+    }
+    else {
+        response.status(403).json({
+            success: false,
+            errors: {
+                general: ["you've been registered. but user is missing in our ledger."]
+            }
+        });
+    }
 };
 //# sourceMappingURL=user.controller.js.map

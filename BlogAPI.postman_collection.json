@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "b4529d92-24a5-4d65-bf3c-defed2a70988",
+		"name": "BlogAPI",
+		"description": "# user schema\n```json\n{\n   \"firstName\": \"firstname\",\n   \"lastName\": \"lastname\",\n   \"email\": \"example@mail.com\",\n   \"phone\": \"+919393939393\",\n   \"password\": \"password1234\",\n   \"confirmPassword\": \"password1234\"\n}\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user-signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"firstName\": \"ravi\",\r\n   \"lastName\": \"vora\",\r\n   \"email\": \"ravi132369@mail.com\",\r\n   \"phone\": \"+919328620376\",\r\n   \"password\": \"ravivora1323\",\r\n   \"confirmPassword\": \"ravivora1323\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-user",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "headerPrefix",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

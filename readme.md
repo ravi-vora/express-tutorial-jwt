@@ -18,5 +18,42 @@
     - headers -> Authorization - [Bearer token]
 
 - /user POST
+    - headers -> Authorization - [Bearer token]
     * body
-    -- { firstName, lastName, email, phone, password, confirmPassword }
+    ```json
+    { 
+        "firstName": "first", 
+        "lastName": "last", 
+        "email": "example@mail.com", 
+        "phone": "+919393939393", 
+        "password": "password123", 
+        "confirmPassword": "password123"
+    }
+    ```
+
+- /blog GET
+    - headers -> Authorization - [Bearer token]
+    
+- /blog/:id GET
+    - headers -> Authorization - [Bearer token]
+
+- /blog POST
+    - headers -> Authorization - [Bearer token]
+    * body
+    ```json
+    {
+        "title": "this is blog title",
+        "content": "this is blog content"
+    }
+    ```
+    
+- /blog/:id PUT
+    - headers -> Authorization - [Bearer token]
+    * body (atleast one field is required)
+    ```json
+    {
+        "title": "this is blog title",
+        "content": "this is blog content"
+    }
+    ```
+- /blog/:id DELETE

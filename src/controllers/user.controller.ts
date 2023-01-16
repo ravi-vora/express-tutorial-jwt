@@ -28,6 +28,7 @@ export const registerUser = (request: Request, response: Response) : void => {
         const jwt = issueJWT(result.id);
         response.cookie("token", jwt.token)
         response.cookie("expires", jwt.expires)
+        response.header('authorization', jwt.token);
         response.status(201).json({
             success: true,
             data: {

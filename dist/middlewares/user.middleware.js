@@ -77,7 +77,7 @@ export const verifyUser = (request, response, next) => {
         });
     }
     else {
-        User.findById('63c4f10e481484a4e22ec682').then((result) => {
+        User.findById(checkUser.id).then((result) => {
             request.user = result;
             next();
         }).catch((e) => {
