@@ -27,7 +27,7 @@ export const validatePhone = ( phone: string ) : boolean => {
     ) ? true : false;
 }
 
-export const genPassword = (password: string) : Password => {
+export const genPassword = ( password: string ) : Password => {
     const salt = crypto.randomBytes(32).toString('hex')
 	const hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex')
 
@@ -37,7 +37,12 @@ export const genPassword = (password: string) : Password => {
     };
 }
 
-export const issueJWT = (id: string) : Token => {
+export const comparePassword = ( password: string, hash: string, salt: string ) : boolean => {
+    const newHash : string = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex')
+    return newHash === hash
+}
+
+export const issueJWT = ( id: string ) : Token => {
     const expiresIn = '1d'
 	const payload = {
 		sub:id,
@@ -51,7 +56,7 @@ export const issueJWT = (id: string) : Token => {
 	}
 }
 
-export const verifyJwt = (token: string) : TokenStatus => {
+export const verifyJwt = ( token: string ) : TokenStatus => {
     try {
         const tokenStatus = jsonwebtoken.verify(token.split(" ")[1], pubKey, { algorithms: 'RS256' });
 

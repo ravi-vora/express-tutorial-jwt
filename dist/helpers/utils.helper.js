@@ -25,6 +25,10 @@ export const genPassword = (password) => {
         salt
     };
 };
+export const comparePassword = (password, hash, salt) => {
+    const newHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+    return newHash === hash;
+};
 export const issueJWT = (id) => {
     const expiresIn = '1d';
     const payload = {

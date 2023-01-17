@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { BlogSchema } from '../config/blog.config.js';
 import { Blog } from '../models/blog.model.js';
 
@@ -17,6 +18,7 @@ export const createBlog = (request: Request, response: Response) : void => {
             data: result
         })
     }).catch( (e : Error) => {
+        console.log(e.message)
         if(e["errors"]["title"]?.message) {
             response.status(403).json({
                 success: false,
@@ -38,7 +40,7 @@ export const createBlog = (request: Request, response: Response) : void => {
 export const getBlog = (request: Request, response: Response) : void => {
     const { id } : { id: string } = request.params;
     if (id) {
-        Blog.findById(id).then( (result) : void => {
+        Blog.findById(id).populate("author").then( (result) : void => {
             response.status(200).json({
                 success: true,
                 data: result
@@ -52,7 +54,7 @@ export const getBlog = (request: Request, response: Response) : void => {
             })
         })
     } else {
-        Blog.find({}).then( (result) : void => {
+        Blog.find({ author: new mongoose.Types.ObjectId(request.user.id) }).populate("author").then( (result) : void => {
             response.status(200).json({
                 success: true,
                 data: result
@@ -79,7 +81,7 @@ export const updateBlog = (request: Request, response: Response) : void => {
     if ( title ) newDocument['title'] = title;
     if ( content ) newDocument['content'] = content;
 
-    Blog.findByIdAndUpdate(id, newDocument, { new: true }).then( (result) : void => {
+    Blog.findByIdAndUpdate(id, newDocument, { new: true }).populate("author").then( (result) : void => {
         response.status(201).json({
             success: true,
             data: result
@@ -106,7 +108,7 @@ export const updateBlog = (request: Request, response: Response) : void => {
 export const deleteBlog = (request: Request, response: Response) : void => {
     const { id } : { id: string } = request.params;
 
-    Blog.findByIdAndDelete(id).then( (result) : void => {
+    Blog.findByIdAndDelete(id).populate("author").then( (result) : void => {
         response.status(200).json({
             success: true,
             data: result

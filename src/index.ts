@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
  */
 import userRouter from './routes/user.router.js';
 import blogRouter from './routes/blog.router.js';
+import commentRouter from './routes/comment.router.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ connectToDatabase().then( () : void => {
      */
     app.use('/user', userRouter)
     app.use('/blog', blogRouter)
+    app.use('/comment', commentRouter)
 
     app.get('/', ( request: Request, response: Response ) : void => {
         response.status(200).json({

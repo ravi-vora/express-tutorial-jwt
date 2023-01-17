@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { UserError } from '../config/user.config.js'
+import { AuthUserError, UserError } from '../config/user.config.js'
 import { validateEmail, validatePhone, verifyJwt } from '../helpers/utils.helper.js'
 import { User } from '../models/user.model.js'
 
@@ -84,4 +84,36 @@ export const verifyUser = (request: Request, response: Response, next: () => voi
             })
         })
     }
+}
+
+export const validateAuthUser = (request: Request, response: Response, next: () => void) : void => {
+    const errors: AuthUserError = {
+        email: [],
+        password: []
+    }
+
+    /**
+     * require validation
+     */
+    if ( !request.body.email || request.body.email === "" ) errors.email.push("'email' is required");
+    if ( !request.body.password || request.body.password === "" ) errors.password.push("'password' is required");
+
+    /**
+     * format validation
+     */
+    if ( request.body.email && !validateEmail(request.body.email) ) errors.email.push("'email' is invalid");
+
+
+    if (
+        errors.email.length > 0 ||
+        errors.password.length > 0
+    ) {
+        Object.keys(errors).map( (key: string, index: number) : void => {
+            if (errors[key].length < 1) delete errors[key];
+        })
+        response.status(403).json({
+            success: false,
+            errors
+        })
+    } else next();
 }

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Blog } from '../models/blog.model.js';
 export const createBlog = (request, response) => {
     const user = request.user;
@@ -12,6 +13,7 @@ export const createBlog = (request, response) => {
             data: result
         });
     }).catch((e) => {
+        console.log(e.message);
         if (e["errors"]["title"]?.message) {
             response.status(403).json({
                 success: false,
@@ -33,7 +35,7 @@ export const createBlog = (request, response) => {
 export const getBlog = (request, response) => {
     const { id } = request.params;
     if (id) {
-        Blog.findById(id).then((result) => {
+        Blog.findById(id).populate("author").then((result) => {
             response.status(200).json({
                 success: true,
                 data: result
@@ -48,7 +50,7 @@ export const getBlog = (request, response) => {
         });
     }
     else {
-        Blog.find({}).then((result) => {
+        Blog.find({ author: new mongoose.Types.ObjectId(request.user.id) }).populate("author").then((result) => {
             response.status(200).json({
                 success: true,
                 data: result
@@ -71,7 +73,7 @@ export const updateBlog = (request, response) => {
         newDocument['title'] = title;
     if (content)
         newDocument['content'] = content;
-    Blog.findByIdAndUpdate(id, newDocument, { new: true }).then((result) => {
+    Blog.findByIdAndUpdate(id, newDocument, { new: true }).populate("author").then((result) => {
         response.status(201).json({
             success: true,
             data: result
@@ -97,7 +99,7 @@ export const updateBlog = (request, response) => {
 };
 export const deleteBlog = (request, response) => {
     const { id } = request.params;
-    Blog.findByIdAndDelete(id).then((result) => {
+    Blog.findByIdAndDelete(id).populate("author").then((result) => {
         response.status(200).json({
             success: true,
             data: result

@@ -14,6 +14,16 @@ export interface TokenStatus {
     id?: string
 }
 
+export interface AuthUserSchema {
+    email: string,
+    password: string
+}
+
+export interface AuthUserError {
+    email: string[],
+    password: string[]
+}
+
 export interface UserSchema {
     firstName: string,
     lastName: string,
